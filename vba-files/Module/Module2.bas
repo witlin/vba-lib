@@ -23,6 +23,8 @@ Sub Sorter()
     Debug.Print obj.Name 
   Next
   
+  ' invRange.Select
+
   ' sort the inventory table by po first and then by part number
   vendorTable.Sort. _
       SortFields.Add Key:=singlePo, SortOn:= _
@@ -58,11 +60,19 @@ Sub Summarize()
   Set sumTable = ActiveWorkbook.Worksheets("Summary") _ 
                                .ListObjects("InventorySummary")
   Set sumRange = sumTable.DataBodyRange
+  ' sumRange.Select
+
   Set singlePo = invRange.Cells(1,1)
   Set singlePart = invRange.Cells(1,4)
   
+  ' ' clear column filters
+  ' For i = 1 to vendorTable.ListColumns.Count 
+  '   invRange.Rows.Item(6).Range.AutoFilter Field:=i
+  '   sumRange.Rows.Item(6).Range.AutoFilter Field:=i
+  ' Next
+
   ' clear contents in Summary worksheet
-  For Each r In invRange.Rows
+  For Each r In sumRange.Rows
     sumRange.Rows(r.Row).ClearContents
   Next
 
