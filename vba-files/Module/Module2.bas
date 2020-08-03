@@ -1,6 +1,7 @@
 Attribute VB_Name = "Module2"
 
-Sub Sorter()
+Sub Sort()
+  
   Dim vendorTable, sumTable As ListObject
   Dim vendorRows As ListRows
   Dim invRange, sumRange, range, singlePo, singlePart As Range
@@ -54,7 +55,8 @@ Sub Summarize()
   repCounter = 1
   lastPart = "null"
   newPart = "null"
-
+  
+  ' references to the table objects and the range of their data bodies
   Set vendorTable = ActiveSheet.ListObjects("VendorInventory")
   Set invRange = vendorTable.DataBodyRange
   Set sumTable = ActiveWorkbook.Worksheets("Summary") _ 
@@ -62,6 +64,7 @@ Sub Summarize()
   Set sumRange = sumTable.DataBodyRange
   ' sumRange.Select
 
+  ' references to the po and part numbers
   Set singlePo = invRange.Cells(1,1)
   Set singlePart = invRange.Cells(1,4)
   
