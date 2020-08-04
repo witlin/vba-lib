@@ -1,6 +1,6 @@
 Attribute VB_Name = "Module2"
 
-Sub Sort()
+Sub SortInventory()
   
   Dim vendorTable, sumTable As ListObject
   Dim vendorRows As ListRows
@@ -79,6 +79,7 @@ Sub Summarize()
     sumRange.Rows(r.Row).ClearContents
   Next
 
+  ' iterate over all rows in the inventory worksheet
   For Each r In invRange.Rows
     rowNum = r.Row - 5
     newPart = invRange.Cells(rowNum, 4).Value
@@ -86,19 +87,28 @@ Sub Summarize()
                 " - po: " & invRange.Cells(rowNum, 1) & _ 
                 " - new: " & newPart & " - last: " & lastPart
     If newPart <> lastPart Then
+      ' if the current row's part number is the same as the part 
+      ' number from the last iteration's row, loop through all the 
+      ' fields on the current row and assign the values from the row 
+      ' in the inventory sheet to the fields of the corresponding row
+      ' in the summary sheet.
       cellIter = 1
       For Each cell In r.Cells
             sumRange.Cells(rowNum, cellIter).Value = _ 
               invRange.Cells(rowNum, cellIter).Value
             cellIter = cellIter + 1
       Next
+      ' reset the repetition counter to one since the current row hasn't repeated yet
       repCounter = 1          
     Else
+      ' sumRow is the index used to append summarized rows to the summary table
+      ' it substracts the repetition counter value every iteration of a repeated
+      ' row in order to keep adding to the same sumary row.
       sumRow = rowNum - repCounter
+
           ' try to aggregate the cell's value with the previous iteration's value, 
           ' if the input value is a real number then aggregate, otherwise
-          ' apply a zero value to corresponding summary sheet cell.
-          
+          ' apply a zero value to corresponding summary sheet cell.    
           'I
           If IsNumeric(invRange.Cells(rowNum, 9).Value) Then 
             sumRange.Cells(sumRow, 9).Value = _
@@ -148,7 +158,7 @@ Sub Summarize()
            sumRange.Cells(sumRow, 21).Value = 0
           End If
           ' now that all values are zero or real numbers, 
-          ' add them up to get total qty received.
+          ' add them up to get total qty received
           sumRange.Cells(sumRow, 10).Value = _
                 sumRange.Cells(sumRow, 13).Value + _ 
                 sumRange.Cells(sumRow, 15).Value + _
