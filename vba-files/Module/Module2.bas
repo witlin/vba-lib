@@ -26,7 +26,7 @@ Sub SortInventory()
   
   ' invRange.Select
 
-  ' sort the inventory table by po first and then by part number
+  ' sort the inventory table by po first and then by part number.
   vendorTable.Sort. _
       SortFields.Add Key:=singlePo, SortOn:= _
       xlSortOnValues, Order:=xlAscending, DataOption:=xlSortNormal
@@ -157,7 +157,7 @@ Sub Summarize()
           Else
            sumRange.Cells(sumRow, 21).Value = 0
           End If
-          ' now that all values are zero or real numbers, 
+          ' now that all values are zero or real numbers
           ' add them up to get total qty received
           sumRange.Cells(sumRow, 10).Value = _
                 sumRange.Cells(sumRow, 13).Value + _ 
@@ -172,13 +172,13 @@ Sub Summarize()
           
           ' we increase the number of repeated parts we already encountered so 
           ' can continue to operate on the current inventory row and stay in the
-          ' first row where the current part number wasn't repeated on the summary sheet.
+          ' first row where the current part number wasn't repeated on the summary sheet
           repCounter = repCounter + 1
     End If        
-    'store the current part number in the last-part number field so we can compare on the next iteration.
+    'store the current part number in the last-part number field so we can compare on the next iteration
     lastPart = newPart
 
-    'we want to clear the contents of unused columns. TODO - remove unused columns
+    'we want to clear the contents of unused columns. TODO - remove unused columns.
     'sumRange.Cells(rowNum, 1).Value = ""
     sumRange.Cells(rowNum, 2).Value = ""
     sumRange.Cells(rowNum, 3).Value = ""
